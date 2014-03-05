@@ -1,0 +1,13 @@
+<suit name ="TestReady" >
+<test name = "BrowserMail" preserve-order="true" >
+<classes>
+<class name ="prac.browser.BrowserMail">
+<methods>
+<include name ="logOn"/>
+<include name ="outBox"/>
+<include name ="inBox"/>
+</methods>
+</class>
+</classes>
+</test>
+</suit>
