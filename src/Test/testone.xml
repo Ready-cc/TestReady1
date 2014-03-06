@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="TestOne" >
+<test name= "TestOne" preserve-order="true">
+<classes>
+	<class name="Test.TestOne">
+		<methods>
+		<include name = "bSlowTest1"/>
+		</methods>
+	</class>
+</classes>
+</test>
+</suite>
