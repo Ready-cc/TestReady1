@@ -1,11 +1,14 @@
 package prac.browser;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 
@@ -21,10 +24,13 @@ public class BrowserMail {
 	@Test
 	public void logOn(){
 		driver.get("http://mail.126.com");
-		driver.findElement(By.xpath("//input[@id='idInput']")).sendKeys("erdinghao");
-		driver.findElement(By.xpath("//input[@id='pwdInput']")).sendKeys("er15ding");
+		driver.findElement(By.id("idInput")).sendKeys("erdinghao");
+//		driver.findElement(By.xpath("//input[@id='idInput']")).sendKeys("erdinghao");
+		driver.findElement(By.id("pwdInput")).sendKeys("er15ding");
+//		driver.findElement(By.xpath("//input[@id='pwdInput']")).sendKeys("er15ding");
+		driver.findElement(By.id("loginBtn"));
 		driver.findElement(By.xpath("//button[@id='loginBtn']")).click();	
-		System.out.println("登陆成功");
+//		System.out.println("登陆成功");
 	}
 
 	@Test
@@ -41,13 +47,22 @@ public class BrowserMail {
 	public void inBox(){
 		//收件箱有时会定位不到
 		driver.findElement(By.xpath("//div[@id='navtree']/descendant::span[@title='收件箱']")).click();
-/*  读信操作--提示找不到元素
-		WebElement cq= driver.findElement(By.xpath("//div[contains(text(),'ready') and @class = 'cq']"));
-		if (!cq.isDisplayed()){System.out.println("Element is not displayed!");}
-		((JavascriptExecutor)driver).executeScript("arguments[0].checked = true;", cq);
-		driver.findElement(By.xpath("//div[contains(text(),'ready') and @class = 'cq']")).click();
-		System.out.println("test收件箱2");
-		*/
+	}
+	@Test
+	@Parameters("index")
+	public void checkMail(int index){
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<WebElement> bt = driver.findElements(By.xpath("//div[contains(@id,'_ContentDiv')]/descendant::div[contains(text(),'test')]"));
+//		driver.findElements(By.cssSelector(".cq")).get(index).click();
+		driver.findElements(By.xpath("//div[contains(@id,'_ContentDiv')]/descendant::div[contains(text(),'test')]")).get(index).click();
+		for (int i = 0; i < bt.size(); i++) {
+			System.out.println(bt.get(i).getText());
+			}
 	}
 	
 	@Test
