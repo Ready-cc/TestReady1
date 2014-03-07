@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
 public class TestOne {
 
     @BeforeSuite
@@ -61,5 +62,6 @@ public class TestOne {
     public void afterSuite(){
     	print("AfterSuite");
     }
-    
+	
 }
+
