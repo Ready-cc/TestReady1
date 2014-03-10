@@ -1,4 +1,4 @@
-package MyTools;
+package myTools;
 
 import java.io.PrintStream;
 

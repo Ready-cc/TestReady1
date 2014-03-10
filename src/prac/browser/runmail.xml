@@ -2,14 +2,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Default suite">
   <test verbose="2" name="Default test">
-  <parameter name ="index" value="0"/>
     <classes>
       <class name="prac.browser.BrowserMail">
 <methods>
 <include name ="logOn"/>
-<include name ="outBox"/>
 <include name ="inBox"/>
-<include name ="checkMail"/>
+<include name ="outBox"/>
+<include name ="draft"/>
 </methods>
 </class>
 </classes>

@@ -1,5 +1,5 @@
 package Test;
-import static MyTools.PrintMain.*;
+import static myTools.PrintMain.*;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;

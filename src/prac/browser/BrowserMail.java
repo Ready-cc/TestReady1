@@ -1,74 +1,76 @@
 package prac.browser;
 
+
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import myTools.*;
 
 
-public class BrowserMail {
+
+	public class BrowserMail {
+	private Wait wait;	
 	private WebDriver driver;
+	private ParseProperties sends = new ParseProperties(System.getProperty("user.dir")+"\\tool\\sendkeys.properties");
+	private ParseProperties xp = new ParseProperties(System.getProperty("user.dir")+"\\tool\\xpath.properties");
+	
 	
 	@BeforeClass
 	public void start(){
 		BrowserInit browser = new  BrowserInit(BrowserType.ie);
 		driver =  browser.driver;
+		wait = new Wait(driver);
+		
+		
 	}
 	@Test
 	public void logOn(){
-		driver.get("http://mail.126.com");
-		driver.findElement(By.id("idInput")).sendKeys("erdinghao");
-//		driver.findElement(By.xpath("//input[@id='idInput']")).sendKeys("erdinghao");
-		driver.findElement(By.id("pwdInput")).sendKeys("er15ding");
-//		driver.findElement(By.xpath("//input[@id='pwdInput']")).sendKeys("er15ding");
-		driver.findElement(By.id("loginBtn"));
-		driver.findElement(By.xpath("//button[@id='loginBtn']")).click();	
-//		System.out.println("µ«¬Ω≥…π¶");
+		driver.get(sends.getValue("url"));
+		driver.findElement(By.xpath(xp.getValue("lgname"))).sendKeys(sends.getValue("lgname"));
+		driver.findElement(By.xpath(xp.getValue("lgpwd"))).sendKeys(sends.getValue("lgpwd"));
+		driver.findElement(By.xpath(xp.getValue("lgpwd"))).submit();
+		System.out.println("ÁôªÈôÜÊàêÂäü");
 	}
-
 	@Test
 	public void writeLetter(){
-
-		driver.findElement(By.xpath("//div[@id='dvNavTop']/descendant::span[contains(text(),'–¥ –≈')]")).click();
-		driver.findElement(By.xpath("//div[@id='divComposeto']/descendant::input[2]")).sendKeys("erdinghao@126.com");
-		driver.findElement(By.xpath("//div[@id='divComposeSubject']/descendant::input")).sendKeys("test-ready");
-		driver.findElement(By.xpath("//header[@id='divComposeToolbar']/descendant::span[1]")).click();
-		System.out.println("test–¥–≈1");	
+		driver.findElement(By.xpath(xp.getValue("writebutton"))).click();
+		driver.findElement(By.xpath(xp.getValue("addres"))).sendKeys(sends.getValue("addres"));
+		driver.findElement(By.xpath(xp.getValue("title"))).sendKeys(sends.getValue("title"));
+		driver.findElement(By.xpath(xp.getValue("sendbutton"))).click();
+		System.out.println("testÂÜô‰ø°1");	
 	}
-
 	@Test
 	public void inBox(){
-		// ’º˛œ‰”– ±ª·∂®Œª≤ªµΩ
-		driver.findElement(By.xpath("//div[@id='navtree']/descendant::span[@title=' ’º˛œ‰']")).click();
+		driver.findElement(By.xpath(xp.getValue("inboxbutton"))).click();
+		wait.waitForElementPresent(xp.getValue("inboxtitle"));
+		driver.findElement(By.xpath(xp.getValue("inboxtitle"))).click();
 	}
-	@Test
-	@Parameters("index")
-	public void checkMail(int index){
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		List<WebElement> bt = driver.findElements(By.xpath("//div[contains(@id,'_ContentDiv')]/descendant::div[contains(text(),'test')]"));
-//		driver.findElements(By.cssSelector(".cq")).get(index).click();
-		driver.findElements(By.xpath("//div[contains(@id,'_ContentDiv')]/descendant::div[contains(text(),'test')]")).get(index).click();
-		for (int i = 0; i < bt.size(); i++) {
-			System.out.println(bt.get(i).getText());
-			}
-	}
-	
 	@Test
 	public void outBox(){
-		driver.findElement(By.xpath("//div[@id='navtree']/descendant::span[(text()='“—∑¢ÀÕ')]")).click();
-		System.out.println("test“—∑¢ÀÕ4");
+		driver.findElement(By.xpath(xp.getValue("sentbutton"))).click();
+		System.out.println("testÂ∑≤ÂèëÈÄÅ4");
+	}
+	@Test
+	public void draft(){
+
+		driver.findElement(By.xpath(xp.getValue("dratftbutton1"))).click();
+		WebElement dratfm1 = driver.findElement(By.xpath(xp.getValue("dratftbutton2")));
+		List<WebElement> dratfm2 = driver.findElements(By.xpath(xp.getValue("dratftitem")));
+//		Integer.parseIntÂ≠óÁ¨¶‰∏≤ËΩ¨Êç¢ÊàêintÂûã
+//		Assert.assertEquals(Integer.parseInt(dratfm1.getText().substring(1,2)), dratfm2.size());
+		if(Integer.parseInt(dratfm1.getText().substring(1,2))==dratfm2.size())
+			Assert.assertEquals(true,true);
+		else
+			Assert.assertEquals(true,false);
+		
+
 	}
 		
 	@AfterClass
