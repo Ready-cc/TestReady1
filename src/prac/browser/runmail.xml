@@ -6,8 +6,8 @@
       <class name="prac.browser.BrowserMail">
 <methods>
 <include name ="logOn"/>
-<include name ="inBox"/>
-<include name ="outBox"/>
+<!-- <include name ="inBox"/>
+<include name ="outBox"/> -->
 <include name ="draft"/>
 </methods>
 </class>

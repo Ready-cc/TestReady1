@@ -46,10 +46,10 @@ public class BrowserInit {
 		        driver = new InternetExplorerDriver(caps);
 		        break;
 		    case chrome:
-				System.setProperty("webdriver.chrome.driver", projectpath+"/tool/chromedriver.exe"); 
+	 			System.setProperty("webdriver.chrome.driver", projectpath+"/tool/chromedriver.exe"); 
 				caps = DesiredCapabilities.chrome();
-				caps.setCapability("chrome.switches",Arrays.asList("--start-maximized"));  //×î´ó»¯browser
-				//capabilities.setCapability("chrome.switches", Arrays.asList("--proxy-server=http://your-proxy-domain:4443")); //ÉèÖÃ´úÀí
+				caps.setCapability("chrome.switches",Arrays.asList("--start-maximized"));  //ï¿½ï¿½ï¿½browser
+				//capabilities.setCapability("chrome.switches", Arrays.asList("--proxy-server=http://your-proxy-domain:4443")); //ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
 				driver = new ChromeDriver(caps);
 				break;
 		}

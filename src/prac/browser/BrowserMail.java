@@ -10,8 +10,10 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.openqa.selenium.support.ui.Select;
 
 import myTools.*;
+import static myTools.PrintMain.*;
 
 
 
@@ -27,12 +29,11 @@ import myTools.*;
 		BrowserInit browser = new  BrowserInit(BrowserType.ie);
 		driver =  browser.driver;
 		wait = new Wait(driver);
-		
-		
 	}
 	@Test
 	public void logOn(){
 		driver.get(sends.getValue("url"));
+		driver.findElement(By.xpath(xp.getValue("lgname"))).clear();
 		driver.findElement(By.xpath(xp.getValue("lgname"))).sendKeys(sends.getValue("lgname"));
 		driver.findElement(By.xpath(xp.getValue("lgpwd"))).sendKeys(sends.getValue("lgpwd"));
 		driver.findElement(By.xpath(xp.getValue("lgpwd"))).submit();
@@ -57,22 +58,20 @@ import myTools.*;
 		driver.findElement(By.xpath(xp.getValue("sentbutton"))).click();
 		System.out.println("test已发送4");
 	}
+
+	
 	@Test
 	public void draft(){
-
 		driver.findElement(By.xpath(xp.getValue("dratftbutton1"))).click();
 		WebElement dratfm1 = driver.findElement(By.xpath(xp.getValue("dratftbutton2")));
 		List<WebElement> dratfm2 = driver.findElements(By.xpath(xp.getValue("dratftitem")));
-//		Integer.parseInt字符串转换成int型
-//		Assert.assertEquals(Integer.parseInt(dratfm1.getText().substring(1,2)), dratfm2.size());
-		if(Integer.parseInt(dratfm1.getText().substring(1,2))==dratfm2.size())
-			Assert.assertEquals(true,true);
-		else
-			Assert.assertEquals(true,false);
-		
+		int lth = dratfm1.getText().length();
+		int number = Integer.parseInt(dratfm1.getText().substring(1, lth-1));
+	 	System.out.println("当前草稿箱数量 " +dratfm2.size());
+	 	Assert.assertEquals(number, dratfm2.size());
 
 	}
-		
+	
 	@AfterClass
 	public void releaseie(){
 		driver.quit();
