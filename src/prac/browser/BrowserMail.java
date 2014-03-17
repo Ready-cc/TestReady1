@@ -62,13 +62,34 @@ import static myTools.PrintMain.*;
 	
 	@Test
 	public void draft(){
+		this.logOn();
+//		wait.waitForElementPresent("dratftbutton1");
+		int lth=0;
+		int number=0;
+		int page=0;
+		int count=0;
 		driver.findElement(By.xpath(xp.getValue("dratftbutton1"))).click();
 		WebElement dratfm1 = driver.findElement(By.xpath(xp.getValue("dratftbutton2")));
-		List<WebElement> dratfm2 = driver.findElements(By.xpath(xp.getValue("dratftitem")));
-		int lth = dratfm1.getText().length();
-		int number = Integer.parseInt(dratfm1.getText().substring(1, lth-1));
-	 	System.out.println("当前草稿箱数量 " +dratfm2.size());
-	 	Assert.assertEquals(number, dratfm2.size());
+		lth = dratfm1.getText().length();
+		number = Integer.parseInt(dratfm1.getText().substring(1, lth-1));
+	 	page=Integer.valueOf(driver.findElement(By.xpath("//span[@class='nui-select-text']")).getText().split("/")[1]);
+	 	while(page>1){
+	 		wait.waitFor(5000);
+	 		List<WebElement> pagebtns = driver.findElements(By.xpath("//div[@title='下一页']/span[2]"));
+	 		try{
+	 			WebElement pagebtn = pagebtns.get(pagebtns.size()-1);
+	 			pagebtn.click();
+		 	}
+		 	catch(Exception e){
+	 			break;
+	 		}
+	 		page--;
+	 		count = driver.findElements(By.xpath("//b[contains(@title,'草稿')]")).size();
+
+	 	}
+	 	System.out.println("当前草稿箱数量 " +count);
+	 	System.out.println("当前草稿页数 " +page);
+	 	Assert.assertEquals(number, count);
 
 	}
 	
