@@ -24,6 +24,8 @@ public class BrowserInit {
 		    case firefox:
 		    	File firebug = new File(projectpath+"/tool/firebug-1.12.1-fx.xpi");
 			    File firepath = new File(projectpath+"/tool/firepath-0.9.7-fx.xpi");
+//			    如果firefox不是默认安装需要设置
+//			    System.setProperty("webdriver.firefox.bin","D:\\Program Files\\Mozilla Firefox\\firefox.exe");
 				firefoxprofile =  new FirefoxProfile();
 				try {
 					firefoxprofile.addExtension(firebug);
@@ -48,12 +50,13 @@ public class BrowserInit {
 		    case chrome:
 	 			System.setProperty("webdriver.chrome.driver", projectpath+"/tool/chromedriver.exe"); 
 				caps = DesiredCapabilities.chrome();
-				caps.setCapability("chrome.switches",Arrays.asList("--start-maximized"));  //���browser
-				//capabilities.setCapability("chrome.switches", Arrays.asList("--proxy-server=http://your-proxy-domain:4443")); //���ô���
+				caps.setCapability("chrome.switches",Arrays.asList("--start-maximized"));  //最大化browser
+				//capabilities.setCapability("chrome.switches", Arrays.asList("--proxy-server=http://your-proxy-domain:4443")); //设置代理
 				driver = new ChromeDriver(caps);
 				break;
 		}
 	}
+
 }		
 
 

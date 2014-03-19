@@ -15,8 +15,6 @@ import org.openqa.selenium.support.ui.Select;
 import myTools.*;
 import static myTools.PrintMain.*;
 
-
-
 	public class BrowserMail {
 	private Wait wait;	
 	private WebDriver driver;
@@ -62,8 +60,6 @@ import static myTools.PrintMain.*;
 	
 	@Test
 	public void draft(){
-		this.logOn();
-//		wait.waitForElementPresent("dratftbutton1");
 		int lth=0;
 		int number=0;
 		int page=0;
@@ -77,6 +73,7 @@ import static myTools.PrintMain.*;
 	 		wait.waitFor(5000);
 	 		List<WebElement> pagebtns = driver.findElements(By.xpath("//div[@title='下一页']/span[2]"));
 	 		try{
+//	 			翻页操作后，翻页按钮会累加，通过get(int index)方法按索引取元素
 	 			WebElement pagebtn = pagebtns.get(pagebtns.size()-1);
 	 			pagebtn.click();
 		 	}
