@@ -13,7 +13,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.*; 
+import org.apache.logging.log4j.LogManager;    
+import org.apache.logging.log4j.Logger; 
 
 /**
  * Description:practice with seleniumAPI
@@ -25,8 +27,10 @@ public class TestApi implements Xpath {
 	private WebDriver driver;
 	private Do du;
 	private Wait wait;
+	private Switch swtichw;
 	private ParseProperties sends = new ParseProperties(System.getProperty("user.dir")+"\\tool\\sendkeys.properties");
 	private ParseProperties xp = new ParseProperties(System.getProperty("user.dir")+"\\tool\\xpath.properties");
+
 	
 	@BeforeClass
 	public void startBrowser(){
@@ -34,15 +38,23 @@ public class TestApi implements Xpath {
 		driver = browser.driver;
 		du = new Do(driver);
 		wait = new Wait(driver);
+		swtichw=new Switch(driver);
 //		driver.manage().window().maximize();
 	}	
 	
 	@Test
 	public void iFrameSlider(){	
 		driver.get("http://jqueryui.com/slider/");
-//		wait.waitForElementPresent(JQUERYHOME);
+/*		
+		wait.waitForElementPresent(JQUERYHOME);
 		driver.switchTo().frame(driver.findElement(By.xpath(SLIDERIFRAME)));
-		
+//		方法frame(int index)
+		List<WebElement>  silederframe = driver.findElements(By.xpath(SLIDERIFRAME));
+		swtichw.frame(0);
+		*/
+		WebElement silederframe = driver.findElement(By.xpath(SLIDERIFRAME));
+		swtichw.frame(silederframe);
+
 		Point initialPoint= driver.findElement(By.xpath(SLIDER)).getLocation();
 		System.out.println(initialPoint);
        
@@ -59,14 +71,14 @@ public class TestApi implements Xpath {
 	@Test
 	public void iFrameDraggable(){	
 		driver.get("http://jqueryui.com/draggable/");
-		Switch swtichw=new Switch(driver);
+		
 		swtichw.frame(driver.findElement(By.xpath("//iframe[@class='demo-frame']")));
 //		driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@class='demo-frame']")));
 		Point initPoint = driver.findElement(By.xpath("//div[@id='draggable']")).getLocation();
 		print(initPoint);
 		Actions dragger = new Actions(driver);
 		dragger.dragAndDropBy(driver.findElement(By.xpath("//div[@id='draggable']")), initPoint.getX()+80, initPoint.getY()+80).build().perform();
-		
+//		
 		driver.switchTo().defaultContent();
 		driver.findElement(By.xpath(DRAGGABLE)).click();
 				
@@ -75,7 +87,6 @@ public class TestApi implements Xpath {
 	@Test
 	public void selectTest(){
 		driver.get("http://www.xigua365.com/");
-		driver.manage().window().maximize();
 		driver.findElement(By.xpath("//div[@class='ft']/descendant::a[contains(text(),'登录')]")).click();
 		driver.findElement(By.name("account_name")).sendKeys("ccf@ym.com");
 		driver.findElement(By.name("passwd")).sendKeys("111111");
@@ -93,6 +104,27 @@ public class TestApi implements Xpath {
 		for(WebElement eachcity:allcitys)
 			print(eachcity.getText());
 		
+	}
+	@Test
+	public void selectTestJd(){
+		driver.get("http://www.jd.com");
+		driver.findElement(By.xpath("//a[text()='[登录]']")).click();
+		//登录用户信息
+		wait.waitForElementPresent("//input[@id='loginname']");
+		driver.findElement(By.xpath("//input[@id='loginname']")).sendKeys("ccftest");
+		driver.findElement(By.xpath("//input[@id='nloginpwd']")).sendKeys("abcd123");
+//		driver.findElement(By.xpath("//input[@id='nloginpwd']")).submit();
+		driver.findElement(By.xpath("//input[@id='loginsubmit']")).click();
+		//登录个人信息
+		driver.findElement(By.xpath("//a[text()='我的订单']")).click();
+		driver.findElement(By.xpath("//a[text()='账户信息']")).click();	
+		Select province = new Select(driver.findElement(By.xpath("//select[@id='province']")));
+		province.selectByVisibleText("河北");
+		wait.waitFor(2000);
+		Select city = new Select(driver.findElement(By.xpath("//select[@id='city']")));
+		List<WebElement> citys= city.getOptions();
+		for(WebElement eachcity:citys)
+			print(eachcity.getText());
 	}
 	
 	@Test
@@ -149,7 +181,6 @@ public class TestApi implements Xpath {
 	
 	@AfterClass
 	public void releasBrowser(){
-		
 		driver.quit();
 	}	
 

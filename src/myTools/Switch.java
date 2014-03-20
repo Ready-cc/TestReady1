@@ -55,13 +55,13 @@ public class Switch {
 	public void frame(WebElement frameElement){
 		driver.switchTo().frame(frameElement);
 	}
+//	nameOrId--frame的ID or name 值
 	public void frame(String nameOrId){
-	
+		driver.switchTo().frame(nameOrId);
 	}
+//	index--页面中iframe的list,从0开始。
 	public void frame(int index){
-		
-		
+		driver.switchTo().frame(index);
 	}
 
-	
 }
