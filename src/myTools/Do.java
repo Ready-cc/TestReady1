@@ -26,7 +26,12 @@ public class Do {
 	public WebElement what(String locatorname){
 		return driver.findElement(By.xpath(xpath.getValue(locatorname)));
 	}
-	
+	public WebElement find(String webelement){
+		return driver.findElement(By.xpath(webelement));
+	}
+	public List<WebElement> finds(String webelement){
+		return driver.findElements(By.xpath(webelement));
+	}
 	public List<WebElement> whats(String locatorname){
 		return driver.findElements(By.xpath(xpath.getValue(locatorname)));
 	}

@@ -63,7 +63,7 @@ import static myTools.PrintMain.*;
 		int lth=0;
 		int number=0;
 		int page=0;
-		int count=0;
+		int count=0;	
 		driver.findElement(By.xpath(xp.getValue("dratftbutton1"))).click();
 		WebElement dratfm1 = driver.findElement(By.xpath(xp.getValue("dratftbutton2")));
 		lth = dratfm1.getText().length();

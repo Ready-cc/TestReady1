@@ -45,7 +45,7 @@ public class ParseProperties {
 		}
 		return value;
 	}
-	
+
 	
 	public  static void main(String[] args){
 //		ParseProperties a = new ParseProperties("C:/Users/u123485/git/FireflyAutomationGit/tool/test.properties");

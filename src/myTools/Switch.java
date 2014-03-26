@@ -52,6 +52,12 @@ public class Switch {
 	public void backToCurrentWindow(){
 		driver.switchTo().window(currentwindow);
 	}
+	/**
+	 * Description:iframe封装
+	 * @param frameElement
+	 * @author :ready
+	 * @create :2014.3.19
+	 */
 	public void frame(WebElement frameElement){
 		driver.switchTo().frame(frameElement);
 	}

@@ -179,6 +179,7 @@ public class TestApi implements Xpath {
 		wait.waitFor(5000);
 	}
 	
+	
 	@AfterClass
 	public void releasBrowser(){
 		driver.quit();

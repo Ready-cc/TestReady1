@@ -22,13 +22,10 @@ public class Wait {
 		(new WebDriverWait(driver, 10000)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
 	}
 	
-	
-
-	
-	
 	public void waitForElementIsEnable(String locator){
 		(new WebDriverWait(driver, 10000)).until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
 	}
+
 	
 	public void waitFor(long timeout){
 		try {

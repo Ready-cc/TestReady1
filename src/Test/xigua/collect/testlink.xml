@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="HomePage" >
+<test name= "HomePage" preserve-order="true">
+	 <parameter name="TestData" value="\tool\test.properties" />
+	 <parameter name="url" value="http://localhost/testlink/lib/api/xmlrpc.php" />
+	 <parameter name="devkey" value="1a4d690c39963e9e25f8ae9f478ae405" />
+	 <parameter name="project" value="xigua" />
+	 <parameter name="plan" value="plan1" />
+	 <parameter name="build" value="release-april" />
+	 <parameter name="platform" value="IE9" />
+		<classes>			
+			<class name="Test.xigua.collect.HomePage" >
+			<methods>
+		<include name = "logOn"/>
+		</methods>
+	</class>
+</classes>
+</test>
+</suite>
