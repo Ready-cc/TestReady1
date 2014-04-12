@@ -23,29 +23,64 @@ public class Do {
 		waiter = new Wait(driver);
 	}
 	
-	public WebElement what(String locatorname){
-		return driver.findElement(By.xpath(xpath.getValue(locatorname)));
+	public WebElement what(String locatorname) throws MyException {
+		try{
+			return driver.findElement(By.xpath(xpath.getValue(locatorname)));
+		}catch(Exception e){
+			throw new MyException("请查看xpath数据是否存在？");
+		}
 	}
-	public WebElement find(String webelement){
+
+	public WebElement find(String webelement)throws MyException{
+		try{
 		return driver.findElement(By.xpath(webelement));
+		}catch(Exception e){
+			throw new MyException("元素不存在");
+		}
 	}
-	public List<WebElement> finds(String webelement){
-		return driver.findElements(By.xpath(webelement));
+	public List<WebElement> finds(String webelement) throws MyException{
+		try{
+			return driver.findElements(By.xpath(webelement));
+		}catch(Exception e){
+			throw new MyException("元素不存在");
+		}
+
 	}
-	public List<WebElement> whats(String locatorname){
-		return driver.findElements(By.xpath(xpath.getValue(locatorname)));
+	public List<WebElement> whats(String locatorname) throws MyException{
+		try{
+			return driver.findElements(By.xpath(xpath.getValue(locatorname)));
+		}catch(Exception e){
+			throw new MyException("请查看xpath数据是否存在？");
+		}
+
 	}
 	
-	public void waitForElementPresent(String locatorname){
-		waiter.waitForElementPresent(xpath.getValue(locatorname));
+	public void waitForElementPresent(String locatorname) throws MyException{
+		try{
+			waiter.waitForElementPresent(xpath.getValue(locatorname));
+		}catch(Exception e){
+			throw new MyException("元素咋还不出现呢？！");
+		}
+
 	}
 	
-	public void waitForElementIsEnable(String locatorname){
-		waiter.waitForElementIsEnable(xpath.getValue(locatorname));
-	}
+	public void waitForElementIsEnable(String locatorname) throws MyException{
+		try{
+			waiter.waitForElementIsEnable(xpath.getValue(locatorname));
+		}
+		catch(Exception e){
+			throw new MyException("元素咋一直不能用呢？！");
+		}
+}
 	
-	public void waitFor(long timeout){
-		waiter.waitFor(timeout);
+	public void waitFor(long timeout) throws MyException{
+		try{
+			waiter.waitFor(timeout);
+		}
+		catch(Exception e){
+			throw new MyException("我等太久了。。。");
+		}
+
 	}
 
 }

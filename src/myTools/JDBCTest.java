@@ -17,6 +17,7 @@ public class JDBCTest {
 	private String tablename = null;
 	private Connection conn  = null;
 	private Connection connection  = null;
+	String sql;
 	
 	public JDBCTest(String tablename){
 		this.tablename = tablename;
@@ -90,21 +91,48 @@ public class JDBCTest {
 	public String  selectSettleBill(){
 //		connection("settle", "writeuser", "parkland100");
 		String code = null;
+		sql = "select send_body from "+tablename+" where to_phone = 18610066360 ORDER BY create_time desc limit 1";
 		try {
-			rsq =stat.executeQuery("select regist_code from "+tablename+" where id = '100-20140303-708-001731'");
+			rsq =stat.executeQuery(sql);
+			rsq.last();
+			int rsqi = rsq.getRow();
+			System.out.println(rsqi);
+			for (int i=1;i<=rsqi;i++){
+//			absolute	将光标移动到此 ResultSet 对象的给定行编号
+			rsq.absolute(i);
+			System.out.println(rsq.getString(1));
+			System.out.println(rsq.getString(1).subSequence(0,6));
+			}
+/*		}
 			while (rsq.next()) { 
-				System.out.println("456456456456456456456");
-//				code = rsq.getString("regist_code");
+				for (int i=1;i<=rsqi;i++){
+				System.out.println(rsq.getString(i));
+			}
 				break;
-				}
-				rsq.close();
+			}*/
+			rsq.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+		}  finally {
 			close();
 		}
 		return code;
+	}
+	public String   exesql(String sql){
+		String result = null;
+		try {
+			rsq =stat.executeQuery(sql);
+			rsq.last();
+			result = rsq.getString(1);
+			rsq.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  finally {
+			close();
+		}
+		return result;
 	}
 	
 	private void close() {
@@ -116,11 +144,11 @@ public class JDBCTest {
 			}
 	}
 	public static void main(String[] args) {
-		JDBCTest test = new JDBCTest("settle_bill");
-		test.connection("settle", "writeuser", "parkland100");
-		System.out.println(test.selectSettleBill());
-		//test.deletePhoneVeryfyCode("13522939122");
-		//System.out.print(test.getLocatorCSS( "Password"));	
+		String sql = "select send_body from sms_queue where to_phone = 18610066360 ORDER BY create_time desc limit 1";
+		JDBCTest test = new JDBCTest("sms_queue");
+		test.connection("smp", "writeuser", "parkland100");
+		String ss = test.exesql(sql);
+		System.out.println(ss.subSequence(0, 6));
 	}
 	
 }  

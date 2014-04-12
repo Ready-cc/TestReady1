@@ -2,17 +2,20 @@ package Test.xigua.collect;
 
 
 import java.util.List;
+import java.util.Set;
 
-import myTools.Do;
-import myTools.ParseProperties;
-import myTools.Switch;
-import myTools.Wait;
+
+import myTools.*;
+import Test.xigua.collect.Prodcut;
+
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -25,6 +28,10 @@ public class CheckOut {
 	private Wait wait;
 	private Switch swtichw;
 	String bank;
+	JDBCTest test;
+	WriteAndReadtxt fio =null;
+	String sql = "select send_body from sms_queue where to_phone = 18610066360 ORDER BY create_time desc limit 1";
+	private String caseName;
 	/*
 	private ParseProperties sends = new ParseProperties(System.getProperty("user.dir")+"\\tool\\sendkeys.properties");
 	private ParseProperties xp = new ParseProperties(System.getProperty("user.dir")+"\\tool\\xpath.properties");
@@ -32,10 +39,12 @@ public class CheckOut {
 	@BeforeClass
 	public void startBrowser(){
 		BrowserInit browser = new BrowserInit(BrowserType.chrome);
+		
 		driver = browser.driver;
 		du = new Do(driver);
 		wait = new Wait(driver);
 		swtichw=new Switch(driver);
+		fio = new WriteAndReadtxt();
 		driver.manage().window().maximize();
 	}	
 	@Test
@@ -49,15 +58,26 @@ public class CheckOut {
 //		wait.waitFor(2000);
 	}
 	@Test
-	public void checkout(){
-		driver.get("http://www.xigua365.com/shoppingcart/confirmOrderFromCartProductDeailPage?product_id=100-1472&attr_id=6106&product_count=2");
+	public void checkout() throws MyException{
+		String url = null;
+		Prodcut p = new Prodcut();
+		driver.get(p.prod("100-1472",2));
+		du.find("//textarea").sendKeys("测试备注");
+		wait.waitForElementPresent("//button[@id='J_Order_Submit']");
 		du.find("//button[@id='J_Order_Submit']").click();
 		wait.waitForElementPresent("//button[contains(text(),'下一步')]");
+//		保存订单号
+		url= driver.getCurrentUrl();
+		String orderid = url.substring(68,92);
+		System.out.println(url.substring(68,92));
+		fio.writeFile(orderid, "D:/orderid.txt");
+		fio.writeline(orderid, "D:/temporderid.txt");
 		WebElement nextButton = du.find("//button[contains(text(),'下一步')]");
 		Assert.assertTrue(nextButton.isDisplayed());
 	}
 	@Test
-	public void pay(){
+	public void pay() throws MyException{
+		caseName ="pay";
 		if(du.find("//input[@id='balancePay']").isSelected()){
 			du.find("//input[@id='balancePay']").click();
 		}
@@ -70,7 +90,6 @@ public class CheckOut {
 			banks.get(i).click();
 			bank=banks.get(i).getAttribute("title");
 			du.find("//button[contains(text(),'下一步')]").click();
-			
 			Assert.assertEquals(bank,du.find("//p[@data-role='title-pay']").getAttribute("title"));
 //			wait.waitFor(2000);
 			driver.navigate().back();
@@ -84,6 +103,44 @@ public class CheckOut {
 		Assert.assertEquals(bank,du.find("//p[@data-role='title-pay']").getAttribute("title"));
 		*/
 	}
+	/**
+	 * 使用余额支付
+	 * @throws MyException 
+	 */
+	@Test
+	public void banlancepay() throws MyException{
+		du.find("//button[contains(text(),'下一步')]").click();
+		wait.waitFor(1000);
+		test = new JDBCTest("sms_queue");
+		test.connection("smp", "writeuser", "parkland100");
+		String ss = test.exesql(sql);
+		du.find("//input[@name='check_code']").sendKeys(ss.substring(0,6));
+		wait.waitForElementPresent("//button[text()='去支付']");
+		du.find("//button[text()='去支付']").click();
+		wait.waitForElementPresent("//a[text()='查看我的订单']");
+		
+	}
+	@Test
+	public void shouhuo() throws MyException{
+		caseName ="shouhuo";
+		Actions moveToE = new Actions(driver);
+		WebElement user = driver.findElement(By.className("userAvatar"));
+		moveToE.moveToElement(user).build().perform();
+		wait.waitForElementPresent("//a[contains(text(),'我的订单')]");
+		du.find("//a[contains(text(),'我的订单')]").click();
+		String orderid = fio.readTxtFile();
+		du.find("//input[@name='order_id']").sendKeys(orderid);
+//		du.find("//button[text()='搜索']").click();
+		wait.waitForElementPresent("//button[text()='确认收货']");
+		du.find("//button[text()='确认收货']").click();
+		wait.waitForElementPresent("//button[text()='确定']");
+		du.find("//button[text()='确定']").click();
+		wait.waitFor(1000);
+	}
+/*	@AfterMethod
+	public void updatereport(){  
+		ScreenHot.screentest(driver, caseName);
+	}*/
 	@AfterClass
 		public void release(){
 		driver.close();

@@ -147,6 +147,18 @@ public class ApiObject {
 			}
 			return tcase;
 		}
+//		1.9.3版本
+		public void getTestCasess() {
+			this.planName = planName;
+			this.projectName = projectName;
+			tl = api.getTestPlanByName(planName, projectName);
+			tcs = api.getTestCasesForTestPlan(tl.getId(), null, null, null, null,null, null, null, ExecutionType.MANUAL, null, null);
+/*			for (TestCase tc : tcs) {
+				System.out.println(tc.toString());
+			}
+*/
+		}
+
 
 	public void executeTestCase(String testcasename, int status, String comments) {
 		Integer planID = tl.getId();
@@ -185,7 +197,7 @@ public class ApiObject {
 	}
 	public static void main(String args[]) {
 		String url = "http://localhost/testlink/lib/api/xmlrpc.php";
-		String devKey = "1a4d690c39963e9e25f8ae9f478ae405";
+		String devKey = "c8f14c7eb9e5364e8fc7aca932119277";
 		String projectName = "xigua";
 		String tl = "plan1";
 		String buildName = "release-april";
@@ -198,7 +210,7 @@ public class ApiObject {
 		testlinkapi.getTestCases();
 //		 testlinkapi.uploadAttchment("C:/Users/huitao/Pictures/LOGO/2.JPG");
 //		 ApiObject.testUpload(tc,"C:/Users/huitao/Pictures/LOGO/1.jpg",11,11, 11, "jpg");
-		testlinkapi.executeTestCase("tc3", 1, "tested by CCF");
+		testlinkapi.executeTestCase("tc1", 1, "tested by CCF");
 		System.out.println(testlinkapi.tcase.getFullExternalId());
 	}
 }

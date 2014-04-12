@@ -32,6 +32,11 @@ public class BrowserInit {
 					firefoxprofile.addExtension(firepath);
 					firefoxprofile.setPreference("webdriver.accept.untrusted.certs", "true"); 
 					firefoxprofile.setPreference("extensions.firebug.currentVersion", "1.12.1");
+//					下载路径设置
+					firefoxprofile.setPreference("browser.download.folderList",2);
+					firefoxprofile.setPreference("browser.download.manager.showWhenStarting",false);
+					firefoxprofile.setPreference("browser.download.dir","c:\\downloads");
+					firefoxprofile.setPreference("browser.helperApps.neverAsk.saveToDisk","text/csv");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

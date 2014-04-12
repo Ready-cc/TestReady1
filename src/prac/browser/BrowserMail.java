@@ -87,9 +87,8 @@ import static myTools.PrintMain.*;
 	 	System.out.println("当前草稿箱数量 " +count);
 	 	System.out.println("当前草稿页数 " +page);
 	 	Assert.assertEquals(number, count);
-
 	}
-	
+
 	@AfterClass
 	public void releaseie(){
 		driver.quit();

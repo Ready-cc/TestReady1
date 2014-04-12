@@ -1,10 +1,12 @@
 package prac.browser;
 
 import java.util.List;
+import java.util.Set;
 
 import myTools.*;
 import static myTools.PrintMain.*;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
@@ -103,7 +105,7 @@ public class TestApi implements Xpath {
 		List<WebElement> allcitys = city.getOptions();
 		for(WebElement eachcity:allcitys)
 			print(eachcity.getText());
-		
+
 	}
 	@Test
 	public void selectTestJd(){
@@ -143,7 +145,7 @@ public class TestApi implements Xpath {
 		}
 	}
 	@Test
-	public void mouseRightClick(){
+	public void mouseRightClick() throws MyException{
 		driver.get("http://mail.126.com");
 		du.what("lgname").clear();
 		du.what("lgname").sendKeys(sends.getValue("lgname"));
@@ -179,6 +181,41 @@ public class TestApi implements Xpath {
 		wait.waitFor(5000);
 	}
 	
+	@Test
+	public void JavaExe(){
+		driver.get("file:///F:/test-%E7%94%B0/demo.html");
+		JavascriptExecutor j = (JavascriptExecutor)driver;
+		j.executeScript("alert('nihao a !')");
+		Alert alert = driver.switchTo().alert();
+		String text = alert.getText();
+		System.out.println(text);
+		alert.accept();
+	}
+//	新打开一个窗口后，当前视窗为打开前的窗口
+	@Test
+    public void testMultiWindow() {
+		driver.get("file:///F:/test-%E7%94%B0/demo.html");
+        WebElement element = driver.findElement(By.className("open"));
+        element.click();
+        Set<String> handles = driver.getWindowHandles();
+        String handle = driver.getWindowHandle();
+        driver.getTitle();
+        driver.switchTo().window(handle);
+        driver.getTitle();
+        handles.remove(handle);
+        driver.getTitle();
+        driver.close();
+        WebDriver d = driver.switchTo().window(handles.iterator().next());
+        d.getTitle();
+        d.close();
+        
+/*        Set<String> handles = driver.getWindowHandles();
+        String handle = driver.getWindowHandle();
+        handles.remove(driver.getWindowHandle());
+        WebDriver d = driver.switchTo().window(handles.iterator().next());        
+        d.close();    
+        driver.switchTo().window(handle);*/
+    }
 	
 	@AfterClass
 	public void releasBrowser(){
